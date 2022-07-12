@@ -29,6 +29,7 @@ public class MyView {
 
     }
     private void modelToRequestAttribute(Map<String, Object> model, HttpServletRequest request) {
+        //request에 데이터 셋팅
         model.forEach((key, value) -> request.setAttribute(key, value));
     }
 }

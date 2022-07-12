@@ -26,20 +26,27 @@ public class FrontControllerServletV4 extends HttpServlet{
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    //url 받음
    String requestURI = request.getRequestURI();
+   //url 체크
    ControllerV4 controller = controllerMap.get(requestURI);
-
    if (controller == null) {
      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
      return;
    }
-
+    //파라미터값 셋팅
     Map<String, String> paramMap = createParamMap(request);
+
+    //model을 생성해서 넘김
     Map<String, Object> model = new HashMap<>(); //추가
 
+    //처리 -> model에 필요 정보 담기 + view 이름 반환
     String viewName = controller.process(paramMap, model);
+
+    // 절대 경로로 셋팅
     MyView view = viewResolver(viewName);
+
+    //dispatch.forward(
     view.render(model, request, response);
 
   }

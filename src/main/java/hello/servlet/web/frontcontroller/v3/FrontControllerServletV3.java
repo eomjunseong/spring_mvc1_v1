@@ -36,7 +36,7 @@ public class FrontControllerServletV3 extends HttpServlet {
             return;
         }
 
-        Map<String, String> paramMap = createParamMap(request);
+        Map<String, String> paramMap = createParamMap(request);  // 파라미터값 키 벨류 값으로 추출
 
         ModelView mv = controller.process(paramMap); //뷰네임과 || 사용값이 담겨져있음
         String viewName = mv.getViewName(); // 뷰이름 뽑음
