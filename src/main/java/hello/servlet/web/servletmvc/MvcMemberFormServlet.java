@@ -17,6 +17,11 @@ public class MvcMemberFormServlet extends HttpServlet  {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
 
+        //.forword()
+        //서버 내부에서 호출
+        //JSP 나 SERVLET으로 이동 ~
+        
+        //  /WEB-INF/ 에 JSP가 있으면 직접 호출 불가능 -->컨트롤러에 의해 호출
         dispatcher.forward(request, response);
     }
 }

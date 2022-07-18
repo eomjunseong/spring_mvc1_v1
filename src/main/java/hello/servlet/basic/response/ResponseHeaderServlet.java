@@ -35,6 +35,7 @@ public class ResponseHeaderServlet extends HttpServlet {
         writer.println("ok");
     }
     private void content(HttpServletResponse response) {
+        System.out.println("1");
         //Content-Type: text/plain;charset=utf-8
         //Content-Length: 2
         //response.setHeader("Content-Type", "text/plain;charset=utf-8");

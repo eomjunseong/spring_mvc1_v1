@@ -24,8 +24,8 @@ import java.util.Map;
 @WebServlet(name = "frontControllerServletV5", urlPatterns = "/front-controller/v5/*")
 public class FrontControllerServletV5 extends HttpServlet {
 
-    private final Map<String, Object> handlerMappingMap = new HashMap<>();
-    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();
+    private final Map<String, Object> handlerMappingMap = new HashMap<>(); //컨트롤러 맵핑
+    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>(); //어뎁터
 
     public FrontControllerServletV5() {
         initHandlerMappingMap(); //맵핑 정보 셋팅(핸들러 맵핑)
@@ -49,25 +49,29 @@ public class FrontControllerServletV5 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Object handler = getHandler(request); //url String 정보 반환
+        Object handler = getHandler(request); //요청 URL에 맞는 핸들러(컨트롤러 찾기)
 
         if (handler == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        //맞는 어뎁터 찾기
+        //맞는 어뎁터 찾기 (컨트롤러마다 사용하는 어뎁터다다름== 컨트롤러마다 처리되는 로직이 달라서 )
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
         //찾은 어뎁터로 작업 ; ;
-        ModelView mv = adapter.handle(request, response, handler);
+        ModelView mv = adapter.handle(request, response, handler); //내부에서 똑같이 작동 하도록 규약
         MyView view = viewResolver(mv.getViewName());
         view.render(mv.getModel(), request, response);
     }
+
+    //요청에 맞는 컨트롤러 찾기
     private Object getHandler(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         return handlerMappingMap.get(requestURI);
     }
+
+    //어뎁터랑 맵핑 해봄
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
             if (adapter.supports(handler)) {
@@ -76,6 +80,7 @@ public class FrontControllerServletV5 extends HttpServlet {
         }
         throw new IllegalArgumentException("handler adapter를 찾을 수 없습니다. handler=" + handler);
     }
+
     private MyView viewResolver(String viewName) {
         return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }

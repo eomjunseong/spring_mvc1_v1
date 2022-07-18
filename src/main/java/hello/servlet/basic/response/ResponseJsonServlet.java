@@ -27,6 +27,7 @@ public class ResponseJsonServlet extends HttpServlet {
         data.setUsername("kim");
         data.setAge(20);
         //{"username":"kim","age":20}
+        //String 으로 만들어 JSON 반환함
         String result = objectMapper.writeValueAsString(data);
         response.getWriter().write(result);
     }

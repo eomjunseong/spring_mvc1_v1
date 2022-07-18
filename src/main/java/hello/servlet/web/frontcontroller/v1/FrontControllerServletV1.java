@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "frontControllerServletV1", urlPatterns = "/front-controller/v1/*")
-
 public class FrontControllerServletV1 extends HttpServlet {
 
     private Map<String, ControllerV1> controllerMap = new HashMap<>();
@@ -30,13 +29,13 @@ public class FrontControllerServletV1 extends HttpServlet {
         System.out.println("FrontControllerServletV1.service");
         String requestURI = request.getRequestURI();
 
-        ControllerV1 controller = controllerMap.get(requestURI);
+        ControllerV1 controller = controllerMap.get(requestURI); // 컨트롤러 찾기
 
         if (controller == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        controller.process(request, response);
+        controller.process(request, response); //실행
     }
 }
